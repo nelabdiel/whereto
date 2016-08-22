@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import networkx as nx
 from networkx.readwrite import json_graph
 
+
 app = Flask(__name__)
 app.vars = {}
 
@@ -21,11 +22,11 @@ def index():
         url = 'http://nelabdiel.com'
         r = requests.get(url)
         soup = BeautifulSoup(r.content)
-        G = nx.Graph()
+        G = nx.DiGraph()
         wsite = [url]
 
         c = 0
-        while c < 3:
+        while c < 10:
             try:
                 # Request content of site
                 r = requests.get(wsite[c])
@@ -34,11 +35,12 @@ def index():
                 # Find all links in site.
                 rows = soup.find_all('a')
                 for row in rows:
-                    if ('http' in row.get('href')) or ('www.' in row.get('href')):
-                        G.add_node(row.get('href'))
-                        G.add_edge(url, row.get('href'))
-                        #G.add_edge(wsite[c], row.get('href'))
-                        #wsite.append(row.get('href'))
+                    link = row.get('href')
+                    if (('http' in link) or ('www.' in link)) and (link not in wsite):
+                        #G.add_node(row.get('href'))
+                        #G.add_edge(url, row.get('href'))
+                        G.add_edge(wsite[c], row.get('href'))
+                        wsite.append(row.get('href'))
             except:
                 pass
     
@@ -46,7 +48,7 @@ def index():
             finally:
                 c = c+1
         
-        app.vars['data'] = json_graph.node_link_data(G)
+        app.vars['data'] = json_graph.tree_data(G, root='http://nelabdiel.com')
         #jsonify(G)
         
         html = render_template('index.html')
@@ -57,11 +59,11 @@ def index():
         url = request.form['url']
         r = requests.get(url)
         soup = BeautifulSoup(r.content)
-        G = nx.Graph()
+        G = nx.DiGraph()
         wsite = [url]
 
         c = 0
-        while c < 3:
+        while c < 10:
             try:
                 # Request content of site
                 r = requests.get(wsite[c])
@@ -70,11 +72,12 @@ def index():
                 # Find all links in site.
                 rows = soup.find_all('a')
                 for row in rows:
-                    if ('http' in row.get('href')) or ('www.' in row.get('href')):
-                        G.add_node(row.get('href'))
-                        G.add_edge(url, row.get('href'))
-                        #G.add_edge(wsite[c], row.get('href'))
-                        #wsite.append(row.get('href'))
+                    link = row.get('href')
+                    if (('http' in link) or ('www.' in link)) and (link not in wsite):
+                        #G.add_node(row.get('href'))
+                        #G.add_edge(url, row.get('href'))
+                        G.add_edge(wsite[c], row.get('href'))
+                        wsite.append(row.get('href'))
             except:
                 pass
     
@@ -82,7 +85,7 @@ def index():
             finally:
                 c = c+1
         
-        app.vars['data'] = json_graph.node_link_data(G)
+        app.vars['data'] = json_graph.tree_data(G, root=app.vars['url'])
         #jsonify(G)
         
         html = render_template('index.html')
