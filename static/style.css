@@ -1,0 +1,21 @@
+body            { font-family: sans-serif;  !important; color: black;  background-repeat: no-repeat !important; background-color: lightblue; background-position: 0% 0% !important;background-attachment: fixed !important;
+ }
+
+
+
+a, h1, h2       { color: black; }
+h1, h2          { font-family: 'Georgia', serif; margin: 0; }
+h2              { font-size: 1.2em; }
+
+
+
+
+
+.content {
+  vertical-align: middle;
+  border-color: #000000;
+  border-width: 0px;
+  border-style: solid;
+  margin-left: 10%;
+  margin-right: 10%;
+}
