@@ -85,7 +85,7 @@ def index():
             finally:
                 c = c+1
         
-        app.vars['data'] = json_graph.tree_data(G, root=app.vars['url'])
+        app.vars['data'] = json_graph.tree_data(G, root=url)
         #jsonify(G)
         
         html = render_template('index.html')
