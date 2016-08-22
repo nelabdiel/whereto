@@ -26,7 +26,7 @@ def index():
         wsite = [url]
 
         c = 0
-        while c < 7:
+        while c < 5:
             try:
                 # Request content of site
                 r = requests.get(wsite[c])
@@ -63,7 +63,7 @@ def index():
         wsite = [url]
 
         c = 0
-        while c < 7:
+        while c < 5:
             try:
                 # Request content of site
                 r = requests.get(wsite[c])
